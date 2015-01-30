@@ -23,6 +23,15 @@ class MAV():
         self.thread.start()
 
     def setParam(self, parameter, value):
+        '''
+
+        :param parameter:
+        :param value:
+        :return: Nothing
+        '''
+        #TODO: Return True or False based on verification and validation
+        #TODO: Add better error management here
+
         tryCount = 5
         while tryCount > 0:
             self.msrc.param_set_send(parameter, value)
@@ -36,13 +45,38 @@ class MAV():
                 break
 
     def setAuto(self):
+        '''
+        Set mode to Auto
+        :param Nothing
+        :return: Nothing
+        '''
+        #TODO: Verify and return new state
         self.msrc.set_mode_auto()
+
     def setManual(self):
+        '''
+        Set mode to Manual
+        :param Nothing
+        :return: Nothing
+        '''
+        #TODO: Verify and return new state
         self.msrc.setManual()
+
     def setRTL(self):
+        '''
+        Set mode to RTL
+        :param Nothing
+        :return: Nothing
+        '''
+        #TODO: Verify and return new state
         self.msrc.setRTL()
 
     def monitorThread(self):
+        '''
+        Thread responsible for collecting all incoming mavlink messages
+        :param Nothing
+        :return: Nothing
+        '''
         while not self.threadEnd:
             l = self.msrc.recv_match()
             if l:
@@ -56,15 +90,15 @@ class MAV():
         :param data: the message data
         :return: Nothing, all changes are stored in self
         '''
+        #TODO: Write handlers for all packages, perhaps in a different class and extend it here
         if data._type is 'PARAM_VALUE':
             self.params[data.param_id.replace('\x00','')] = data.param_value
-        # if data._type == 'SYS_STATUS':
-        #     print data
-        #     # self.flightmode = mavutil.mode_string_v09(data)
-        #     # print 'Flight Mode: ', self.flightmode
-        # else:
-        #     print data
+
+
     def close(self):
+        '''
+        Cleanly terminates the monitor thread
+        '''
         self.threadEnd = True
         self.thread.join()
         print 'Everything closed, exiting now...'
