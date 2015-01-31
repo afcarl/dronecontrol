@@ -1,8 +1,9 @@
 import time
 from pymavlink import mavutil
 from threading import Thread, Lock
+from handlers import handlers
 
-class MAV():
+class MAV(handlers):
     def __init__(self):
         ## Connect to the mavlink proxy with udp, will work for STIL and on the real system
         self.msrc = mavutil.mavlink_connection('udp:localhost:14550', planner_format=True, notimestamps=True,robust_parsing=True)
@@ -21,6 +22,8 @@ class MAV():
         self.thread = Thread(target=self.monitorThread)
         self.thread.daemon = True
         self.thread.start()
+
+        self.currentWP = None
 
     def setParam(self, parameter, value):
         '''
@@ -92,7 +95,12 @@ class MAV():
         '''
         #TODO: Write handlers for all packages, perhaps in a different class and extend it here
         if data._type is 'PARAM_VALUE':
-            self.params[data.param_id.replace('\x00','')] = data.param_value
+            self.parameter_Handler(data)
+            # self.params[data.param_id.replace('\x00','')] = data.param_value
+        if data._type is 'MISSION_CURRENT':
+            self.waypoint_Handler(data)
+        # else:
+        #     print data._type
 
 
     def close(self):
