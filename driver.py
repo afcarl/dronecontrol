@@ -17,13 +17,19 @@ class MAV(handlers):
         self.params = {}
         self.msrc.param_fetch_all() #params will be filled by the callback function
 
+        #Build a list of messages
+        self.messages = []
+        self.messageKeys = {}
+
         # Configure the monitor thread
         self.threadEnd = False #Helps with a clean exit
         self.thread = Thread(target=self.monitorThread)
         self.thread.daemon = True
         self.thread.start()
 
+
         self.currentWP = None
+        self.waypointCallback = None
 
     def setParam(self, parameter, value):
         '''
@@ -94,14 +100,29 @@ class MAV(handlers):
         :return: Nothing, all changes are stored in self
         '''
         #TODO: Write handlers for all packages, perhaps in a different class and extend it here
+        if not data._type in self.messages:
+            self.messages.append(data._type)
+            self.messageKeys[data._type] = data._fieldnames
+
         if data._type is 'PARAM_VALUE':
             self.parameter_Handler(data)
             # self.params[data.param_id.replace('\x00','')] = data.param_value
+
         if data._type is 'MISSION_CURRENT':
-            self.waypoint_Handler(data)
+            self.waypoint_Handler(data, callback=self.waypointCallback)
+
+        if data._type is 'WIND':
+            self.wind_Handler(data)
+
+        if data._type is 'VFR_HUD':
+            self.vfr_hud_Handler(data)
+
+        if data._type is 'AHRS2':
+            self.ahrs2_Handler(data)
+
+
         # else:
         #     print data._type
-
 
     def close(self):
         '''
@@ -123,5 +144,10 @@ if __name__=='__main__':
         mav.setParam('THR_MAX', i*20.0)
         time.sleep(5)
     print mav.params
+
+    for entry in mav.messages:
+        print entry
+        print mav.messageKeys[entry], '\n\n'
+
     mav.close()
     print 'Here!'

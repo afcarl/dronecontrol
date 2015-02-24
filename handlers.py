@@ -13,3 +13,13 @@ class handlers():
             print 'New Waypoint: ', self.currentWP
         if callback:
             callback(data)
+
+    def wind_Handler(self, data):
+        self.speed_z = data.speed_z
+        self.wind_dir = data.direction
+
+    def vfr_hud_Handler(self, data):
+        self.climbrate = data.climb
+
+    def ahrs2_Handler(self, data):
+        self.pitch = data.pitch
