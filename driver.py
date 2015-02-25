@@ -30,6 +30,8 @@ class MAV(handlers):
 
         self.currentWP = None
         self.waypointCallback = None
+        self.vfrCallback = None
+        self.ahrs2Callback = None
 
     def setParam(self, parameter, value):
         '''
@@ -115,10 +117,10 @@ class MAV(handlers):
             self.wind_Handler(data)
 
         if data._type is 'VFR_HUD':
-            self.vfr_hud_Handler(data)
+            self.vfr_hud_Handler(data, callback=self.vfrCallback)
 
         if data._type is 'AHRS2':
-            self.ahrs2_Handler(data)
+            self.ahrs2_Handler(data, callback=self.ahrs2Callback)
 
 
         # else:
