@@ -57,14 +57,19 @@ class dynamicPlot():
             self.lines[-1].set_data(self.x, self.y)
         except Exception,e:
             print Exception,e
+        print self.ax.get_ybound()
         #
         # try:
         #     self.ax.axis([self.x.min(),self.x.max(),self.y.min(), self.y.max()])
         # except:
         #     pass
-        ax.relim()
-        ax.autoscale_view()
+        self.ax.relim()
+        print self.ax.get_ybound()
+        self.ax.autoscale_view()
         self.manager.canvas.draw()
+        self.ax.relim()
+        print self.ax.get_ybound()
+        self.ax.autoscale_view()
         self.manager.show()
         self.checkStatus()
 
@@ -86,7 +91,7 @@ class dynamicPlot():
     def waitonEvent(self):
         pass
 
-    def configureTimers(self, interval=75):
+    def configureTimers(self, interval=500):
         self.timer = self.fig.canvas.new_timer(interval=interval)
         self.timer.add_callback(self.updatePlot)
 
