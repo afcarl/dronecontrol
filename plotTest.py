@@ -37,6 +37,11 @@ class dynamicPlot():
         self.manager = pyplot.get_current_fig_manager()
         self.manager.canvas.draw()
 
+        self.xmin=None
+        self.ymin=None
+        self.xmax=None
+        self.ymax=None
+
     def updateData(self):
 
         while True:
@@ -56,19 +61,29 @@ class dynamicPlot():
         try:
             self.lines[-1].set_data(self.x, self.y)
         except Exception,e:
-            print Exception,e
-        print self.ax.get_ybound()
+            pass
+            # print Exception,e
+        # print self.ax.get_ybound()
         #
-        # try:
-        #     self.ax.axis([self.x.min(),self.x.max(),self.y.min(), self.y.max()])
-        # except:
-        #     pass
+        try:
+            if not self.xmin or self.x.min() < self.xmin: self.xmin = self.x.min()
+            if not self.ymin or self.y.min() < self.ymin: self.ymin = self.y.min()
+            if not self.xmax or self.x.max() > self.xmax: self.xmax = self.x.max()
+            if not self.ymax or self.y.max() > self.ymax: self.ymax = self.y.max()
+        except Exception,e:
+            pass
+            # print Exception,e
+
+        try:
+            self.ax.axis([self.xmin,self.xmax,self.ymin, self.ymax])
+        except:
+            pass
         self.ax.relim()
-        print self.ax.get_ybound()
+        # print self.ax.get_ybound()
         self.ax.autoscale_view()
         self.manager.canvas.draw()
         self.ax.relim()
-        print self.ax.get_ybound()
+        # print self.ax.get_ybound()
         self.ax.autoscale_view()
         self.manager.show()
         self.checkStatus()
