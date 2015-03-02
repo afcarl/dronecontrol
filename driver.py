@@ -43,10 +43,18 @@ class MAV(handlers):
         #TODO: Return True or False based on verification and validation
         #TODO: Add better error management here
 
-        tryCount = 5
+        self.msrc.param_set_send(parameter, value)
+        # thread = Thread(target=self.checkParamThread, args=[parameter,value])
+        # thread.daemon = True
+        # thread.start()
+
+    def checkParamThread(self, parameter, value):
+        tryCount = 10
         while tryCount > 0:
-            self.msrc.param_set_send(parameter, value)
-            time.sleep(0.05)
+            # self.msrc.param_set_send(parameter, value)
+            # time.sleep(.1)
+            self.msrc.param_fetch_one(parameter)
+            time.sleep(0.1)
             if value != self.params[parameter]:
                 print 'param write failed, trying again'
                 tryCount -=1

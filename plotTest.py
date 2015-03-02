@@ -9,7 +9,7 @@ from matplotlib import pyplot
 import numpy as np
 
 class dynamicPlot():
-    def __init__(self, q, event):
+    def __init__(self, q, event, title = None, ylabel = None):
         #Setup queue
         print 'here'
         self.q = q
@@ -25,12 +25,12 @@ class dynamicPlot():
         self.ax = self.fig.add_subplot(111)
         self.ax.autoscale()
         self.ax.grid(True)
-        self.ax.set_title("Realtime Waveform Plot")
+        if title:
+            self.ax.set_title(title)
         self.ax.set_xlabel("Time")
-        self.ax.set_ylabel("Amplitude")
+        if ylabel:
+            self.ax.set_ylabel(ylabel)
         self.ax.axis([0,10,-1.5,1.5])
-        self.ax.relim()
-        self.ax.autoscale_view(True,True,True)
         self.lines = []
         self.line1, = self.ax.plot( self.x, self.y, '-o' )
         self.lines.append( self.line1 )
