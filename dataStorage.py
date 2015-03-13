@@ -2,6 +2,7 @@ __author__ = 'cpaulson'
 from apscheduler.schedulers.background import BlockingScheduler
 import dill as pickle
 import numpy as np
+import time
 
 class dataStorage():
     def __init__(self, dataqueue, statusQueue, title=None, dis=None):
@@ -18,16 +19,16 @@ class dataStorage():
         self.scheduler.start()
 
     def dataUpdate(self):
-        while Ture:
+        while True:
             try:
                 item = self.dataqueue.get(False)
-                    if item:
-                        if not self.firstTime:
-                            self.firstTime = item[0]
-                        self.x = np.append(self.x, item[0]-self.firstTime)
-                        self.y = np.append(self.y, item[1])
-                    else:
-                        break
+                if item:
+                    if not self.firstTime:
+                        self.firstTime = item[0]
+                    self.x = np.append(self.x, item[0]-self.firstTime)
+                    self.y = np.append(self.y, item[1])
+                else:
+                    break
             except:
                 break
 
@@ -42,9 +43,13 @@ class dataStorage():
                     d2s['dis'] = self.dis
                     d2s['x'] = self.x
                     d2s['y'] = self.y
+                    try:
+                        pickle.dump( d2s, open('{0}time_{1}_value_{2}.pkl'.format(self.path, int(time.time()), self.title),'rb'))
+                    except:
+                        print 'Failed to dump'
 
                     self.x = np.array([])
-                    self.y = np.arary([])
+                    self.y = np.array([])
                     self.firstTime = None
         except Exception,e:
             pass
