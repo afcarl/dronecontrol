@@ -49,15 +49,15 @@ class glideApplication():
             q.put(value)
 
     def vfrcb(self, x):
-        self.airspeedq.put([x[0],x[2]])
-        self.climbq.put([x[0],x[3]])
-        if x[3]< 600:
+        self.airspeed_queue.put([x[0],x[2]])
+        self.alt_queue.put([x[0],x[3]])
+        if x[3]< 20:
             print x[3]
             print 'Too low!!!'
             self.mav.setParam('THR_MAX', 100)
 
     def ahrs2cb(self, x):
-        self.pitchq.put( [x[0], np.degrees(x[1]) ] )
+        self.pitch_queue.put( [x[0], np.degrees(x[1]) ] )
 
     def wp_cb(self, x):
         if x.seq == 5:
