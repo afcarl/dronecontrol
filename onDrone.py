@@ -27,7 +27,7 @@ class glideApplication():
               'climb':{'queue':self.alt_queue, 'title': 'Altitude', 'dis':'Altitude (m)'} }
         for i in self.datastores:
             self.broadcastQueues.append(Queue())
-            p = Process(target=f, args=(self.plots[i]['queue'], self.broadcastQueues[-1],self.plots[i]['title'],self.plots[i]['ylabel'] ))
+            p = Process(target=f, args=(self.datastores[i]['queue'], self.broadcastQueues[-1],self.datastores[i]['title'],self.datastores[i]['ylabel'] ))
             p.start()
         time.sleep(5)
 
@@ -60,7 +60,7 @@ class glideApplication():
         self.pitchq.put( [x[0], np.degrees(x[1]) ] )
 
     def wp_cb(self, x):
-        if x.seq == 3:
+        if x.seq == 5:
             print 'Triggering'
             self.mav.vfrCallback = self.vfrcb
             self.mav.ahrs2Callback = self.ahrs2cb
@@ -76,7 +76,7 @@ class glideApplication():
             # self.mav.setParam('TECS_SINK_MAX', self.sinkrate[self.count])
             self.mav.setParam('ARSPD_FBW_MIN', self.airspeeds[self.count])
             self.mav.setParam('THR_MAX', 0)
-        if x.seq == 4:
+        if x.seq == 6:
             self.count +=1
             # self.mav.setParam('PTCH2SRV_RMAX_UP', 0 )
             self.mav.setParam('THR_MAX', 100)
