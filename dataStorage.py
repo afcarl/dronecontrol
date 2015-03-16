@@ -45,7 +45,7 @@ class dataStorage():
                     d2s['y'] = self.y
                     print d2s
                     try:
-                        pickle.dump( d2s, open('time_{1}_value_{2}.pkl'.format(int(time.time()), self.title),'rb'))
+                        pickle.dump( d2s, open('time_{0}_value_{1}.pkl'.format(int(time.time()), self.title),'rb'))
                     except Exception, e:
                         print 'Failed to dump'
                         print Exception,e
