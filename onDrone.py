@@ -60,7 +60,7 @@ class glideApplication():
         self.pitch_queue.put( [x[0], np.degrees(x[1]) ] )
 
     def wp_cb(self, x):
-        if x.seq == 5:
+        if x.seq == 6:
             print 'Triggering'
             self.mav.vfrCallback = self.vfrcb
             self.mav.ahrs2Callback = self.ahrs2cb
@@ -76,7 +76,7 @@ class glideApplication():
             # self.mav.setParam('TECS_SINK_MAX', self.sinkrate[self.count])
             self.mav.setParam('ARSPD_FBW_MIN', self.airspeeds[self.count])
             self.mav.setParam('THR_MAX', 0)
-        if x.seq == 6:
+        if x.seq == 7:
             self.count +=1
             # self.mav.setParam('PTCH2SRV_RMAX_UP', 0 )
             self.mav.setParam('THR_MAX', 100)
