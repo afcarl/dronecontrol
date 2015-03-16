@@ -4,7 +4,7 @@ from driver import MAV
 from multiprocessing import Process, Queue, Event
 import time
 import numpy as np
-import dataStorage as DS
+from dataStorage import dataStorage as DS
 
 def f(dataQueue, eventQueue, title, dis):
     d = DS(dataQueue, eventQueue, title=title, dis=dis)
