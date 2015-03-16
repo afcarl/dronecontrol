@@ -27,7 +27,7 @@ class glideApplication():
               'climb':{'queue':self.alt_queue, 'title': 'Altitude', 'dis':'Altitude (m)'} }
         for i in self.datastores:
             self.broadcastQueues.append(Queue())
-            p = Process(target=f, args=(self.datastores[i]['queue'], self.broadcastQueues[-1],self.datastores[i]['title'],self.datastores[i]['ylabel'] ))
+            p = Process(target=f, args=(self.datastores[i]['queue'], self.broadcastQueues[-1],self.datastores[i]['title'],self.datastores[i]['dis'] ))
             p.start()
         time.sleep(5)
 
