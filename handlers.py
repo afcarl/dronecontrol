@@ -26,7 +26,7 @@ class handlers():
 
     def ntun_Handler(self, data, callback=None):
         self.airspeed = data.airspeed
-        self.airspeed = data.alt
+        self.alt = data.alt
         if callback:
             callback( [data._timestamp, data.airspeed, data.alt])
 
