@@ -62,7 +62,7 @@ class glideApplication():
     def wp_cb(self, x):
         if x.seq == 6:
             print 'Triggering'
-            self.mav.vfrCallback = self.vfrcb
+            self.mav.vfrCallback = self.ntun
             self.mav.ahrs2Callback = self.ahrs2cb
             self.mav.setParam('TECS_SPDWEIGHT', 2)
             # self.mav.setParam('TECS_PTCH_DAMP', 0)
