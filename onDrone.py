@@ -24,7 +24,7 @@ class glideApplication():
         time.sleep(5)
         self.datastores = {'airspeed':{'queue':self.airspeed_queue, 'title': 'Airspeed', 'dis':'Airspeed (m/s)'},\
               'pitch':{'queue':self.pitch_queue, 'title': 'Pitch', 'dis':'Pitch Angle (deg)'},\
-              'climb':{'queue':self.alt_queue, 'title': 'Altitude', 'dis':'Altitude (m)'} }
+              'alt':{'queue':self.alt_queue, 'title': 'Altitude', 'dis':'Altitude (m)'} }
         for i in self.datastores:
             self.broadcastQueues.append(Queue())
             p = Process(target=f, args=(self.datastores[i]['queue'], self.broadcastQueues[-1],self.datastores[i]['title'],self.datastores[i]['dis'] ))
@@ -48,7 +48,7 @@ class glideApplication():
         for q in self.broadcastQueues:
             q.put(value)
 
-    def vfrcb(self, x):
+    def ntun(self, x):
         self.airspeed_queue.put([x[0],x[2]])
         self.alt_queue.put([x[0],x[3]])
         if x[3]< 20:

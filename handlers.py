@@ -24,6 +24,12 @@ class handlers():
         if callback:
             callback( [data._timestamp, data.climb, data.airspeed, data.alt])
 
+    def ntun_Handler(self, data, callback=None):
+        self.airspeed = data.airspeed
+        self.airspeed = data.alt
+        if callback:
+            callback( [data._timestamp, data.airspeed, data.alt])
+
     def ahrs2_Handler(self, data, callback = None):
         self.pitch = data.pitch
         if callback:

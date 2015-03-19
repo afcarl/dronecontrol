@@ -127,6 +127,9 @@ class MAV(handlers):
         if data._type is 'VFR_HUD':
             self.vfr_hud_Handler(data, callback=self.vfrCallback)
 
+        if data._type is 'NTUN':
+            self.ntun_Handler(data, callback=self.ntunCallback)
+
         if data._type is 'AHRS2':
             self.ahrs2_Handler(data, callback=self.ahrs2Callback)
 
