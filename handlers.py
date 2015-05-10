@@ -21,6 +21,7 @@ class handlers():
     def vfr_hud_Handler(self, data, callback=None):
         self.climbrate = data.climb
         self.airspeed = data.airspeed
+        self.alt = data.alt
         if callback:
             callback( [data._timestamp, data.climb, data.airspeed, data.alt])
 
@@ -28,3 +29,8 @@ class handlers():
         self.pitch = data.pitch
         if callback:
             callback([data._timestamp, data.pitch])
+
+    def baro_Handler(self, data, callback = None):
+        self.alt = data.alt
+        if callback:
+            callback([data._timestamp, data.alt])

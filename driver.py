@@ -32,6 +32,7 @@ class MAV(handlers):
         self.waypointCallback = None
         self.vfrCallback = None
         self.ahrs2Callback = None
+        self.baroCallback = None
 
     def setParam(self, parameter, value):
         '''
@@ -126,6 +127,9 @@ class MAV(handlers):
 
         if data._type is 'VFR_HUD':
             self.vfr_hud_Handler(data, callback=self.vfrCallback)
+
+        if data._type is 'BARO':
+            self.baro_Handler(data, callback=self.vfrCallback)
 
         if data._type is 'AHRS2':
             self.ahrs2_Handler(data, callback=self.ahrs2Callback)
