@@ -33,6 +33,7 @@ class MAV(handlers):
         self.vfrCallback = None
         self.ahrs2Callback = None
         self.baroCallback = None
+        self.ntunCallback = None
 
     def setParam(self, parameter, value):
         '''
@@ -129,7 +130,10 @@ class MAV(handlers):
             self.vfr_hud_Handler(data, callback=self.vfrCallback)
 
         if data._type is 'BARO':
-            self.baro_Handler(data, callback=self.vfrCallback)
+            self.baro_Handler(data, callback=self.baroCallback)
+
+        if data._type is 'NTUN':
+            self.ntun_Handler(data, callback=self.ntunCallback)
 
         if data._type is 'AHRS2':
             self.ahrs2_Handler(data, callback=self.ahrs2Callback)
