@@ -6,7 +6,7 @@ from handlers import handlers
 class MAV(handlers):
     def __init__(self):
         ## Connect to the mavlink proxy with udp, will work for STIL and on the real system
-        self.msrc = mavutil.mavlink_connection('udp:localhost:14550', planner_format=True, notimestamps=True,robust_parsing=True)
+        self.msrc = mavutil.mavlink_connection('udp:localhost:14555', planner_format=True, notimestamps=True,robust_parsing=True)
         self.msrc.wait_heartbeat()
         self.mode = self.msrc.flightmode
 
